@@ -17,10 +17,6 @@ namespace Library
 {
     public partial class MainWindow : Window
     {
-        public Book testBook { get; set; }
-        public Genre testGenre { get; set; }
-        public Author testAuthor { get; set; }
-        public Publisher testPublisher { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -31,6 +27,14 @@ namespace Library
             BooksListBox.ItemsSource = books;
 
             DataContext = this;
+        }
+        private void BooksListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (BooksListBox.SelectedItem is Book selectedBook)
+            {
+                BookPage bookPage = new BookPage(selectedBook);
+                this.Content = bookPage;
+            }
         }
     }
 }

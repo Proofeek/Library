@@ -46,6 +46,6 @@
                         ContentTemplate="{StaticResource BookTemplate}"/>
     </StackPanel>-->
     <Grid>
-        <ListBox Name="BooksListBox" ItemTemplate="{StaticResource BookTemplate}" />
+        <ListBox Name="BooksListBox" ItemTemplate="{StaticResource BookTemplate}" SelectionChanged="BooksListBox_SelectionChanged" />
     </Grid>
 </Window>

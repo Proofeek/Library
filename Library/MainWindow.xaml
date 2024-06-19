@@ -12,11 +12,11 @@
 
             <Grid Margin="25"  Width="600" Height="200" HorizontalAlignment="Left">
                 <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
                 <Image Grid.Column="0" Source="{Binding ImageUrl}" Margin="10"/>
 
                 <StackPanel Grid.Column="1" Margin="10">
@@ -41,10 +41,11 @@
             </Grid>
         </DataTemplate>
     </Window.Resources>
-
-    <StackPanel>
-        
+    <!--<StackPanel>
         <ContentControl Content="{Binding testBook}"
                         ContentTemplate="{StaticResource BookTemplate}"/>
-    </StackPanel>
+    </StackPanel>-->
+    <Grid>
+        <ListBox Name="BooksListBox" ItemTemplate="{StaticResource BookTemplate}" />
+    </Grid>
 </Window>

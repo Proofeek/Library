@@ -23,12 +23,6 @@ namespace Library
         // Конструктор по умолчанию
         public Book() { }
 
-        // Метод для получения строки с описанием книги
-        public override string ToString()
-        {
-            return $"ID: {BookId}, Title: {Title}, GenreId: {Genre}, Year: {YearPublished}, AuthorId: {Author}, PublisherId: {Publisher}, Pages: {PageCount}, Room: {ReadingRoomNumber}, Available: {IsAvailable}, Image: {ImageUrl}";
-        }
-
         // Метод для проверки доступности книги
         public bool CheckAvailability()
         {

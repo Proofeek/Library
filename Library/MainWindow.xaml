@@ -6,7 +6,44 @@
         xmlns:local="clr-namespace:Library"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
 
-    </Grid>
+    <Window.Resources>
+        <DataTemplate x:Key="BookTemplate">
+            <StackPanel Margin="10">
+                <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Author: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Author.ShortName}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Genre: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Genre.GenreName}"/>
+                </StackPanel>
+                <TextBlock Text="{Binding Annotation}" TextWrapping="Wrap"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Publisher: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Publisher.PublisherName}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Year Published: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding YearPublished}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Pages: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding PageCount}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Available: " FontWeight="Bold"/>
+                    <TextBlock Text="{Binding IsAvailable}"/>
+                </StackPanel>
+                <Image Source="{Binding ImageUrl}" Width="200" Height="300" Margin="0 10"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
+    <StackPanel>
+
+        <ContentControl Content="{Binding testBook}"
+                        ContentTemplate="{StaticResource BookTemplate}"/>
+    </StackPanel>
 </Window>

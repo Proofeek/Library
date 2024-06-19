@@ -24,7 +24,15 @@ namespace Library
         {
             get
             {
-                return $"{FirstName} {MiddleName} {LastName}".Trim();
+                return $"{LastName} {FirstName} {MiddleName}".Trim();
+            }
+        }
+
+        public string ShortName
+        {
+            get
+            {
+                return $"{FirstName[0]}. {LastName}".Trim();
             }
         }
     }

@@ -47,16 +47,18 @@ namespace Library
             {
                 BookId = 25,
                 Title = "Мастер и Маргарита",
-                GenreId = 5,
+                Genre = testGenre,
                 Annotation = "Жарким майским вечером председатель правления МАССОЛИТ Михаил Берлиоз и молодой поэт Иван Бездомный отправились на Патриаршие пруды, чтобы обсудить: существовал ли Иисус Христос. Беседой литераторов заинтересовался некий импозантный гражданин-иностранец. Профессор Воланд стал уверять новых знакомых, что лично присутствовал на допросе бродяги Иешуа Га-Ноцри, который проводил Понтий Пилат.",
                 YearPublished = 1966,
-                AuthorId = 20,
-                PublisherId = 9,
+                Author = testAuthor,
+                Publisher = testPublisher,
                 PageCount = 528,
                 ReadingRoomNumber = 3,
                 IsAvailable = true,
                 ImageUrl = "https://www.moscowbooks.ru/image/book/708/orig/i708783.jpg?cu=20201216154536"
             };
+
+            DataContext = this;
         }
     }
 }

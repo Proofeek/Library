@@ -6,30 +6,46 @@
       xmlns:local="clr-namespace:Library"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      d:Background="White"
       Title="BookPage">
 
-    <Grid Margin="25" Height="400" HorizontalAlignment="Left">
+    <Grid Margin="0" Height="400" HorizontalAlignment="Left" VerticalAlignment="Top">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Image Grid.Column="0" Source="{Binding ImageUrl}" Margin="10" Height="200" VerticalAlignment="Top"/>
+        <Image Grid.Column="0" Source="{Binding ImageUrl}" Margin="10" Height="250" VerticalAlignment="Top"
+               d:Source="https://www.moscowbooks.ru/image/book/708/orig/i708783.jpg?cu=20201216154536"/>
 
-        <StackPanel Grid.Column="1" Margin="10">
-            <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="20"/>
-            <TextBlock Text="{Binding Author.ShortName}" FontSize="16"/>
-            <TextBlock Text="{Binding Genre.GenreName}" FontSize="16"/>
-            <TextBlock Text="{Binding Annotation}" FontSize="12" TextWrapping="Wrap"/>
-            <TextBlock Text="{Binding YearPublished}" FontSize="16"/>
-            <!--<StackPanel Orientation="Horizontal">
-                <TextBlock Text="Publisher: " FontWeight="Bold"/>
-                <TextBlock Text="{Binding Publisher.PublisherName}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Pages: " FontWeight="Bold"/>
-                <TextBlock Text="{Binding PageCount}"/>
-            </StackPanel>-->
+        <StackPanel Grid.Column="1" Margin="15,5,15,0" >
+            <TextBlock d:Text="Название и название 1290. Выход из моря" Text="{Binding Title}" FontWeight="Bold" FontSize="21"/>
+            <TextBlock d:Text="М. Автор" Text="{Binding Author.ShortName}" FontSize="11.2" Margin="0,-1,0,0" FontWeight="Medium"/>
+            <TextBlock d:Text="Жанр" Text="{Binding Genre.GenreName}" FontSize="11.2" Margin="0,0,0,0" FontWeight="Regular" FontStyle="Italic"/>
+            
+            <TextBlock Text="{Binding Annotation}" FontSize="11.2" TextWrapping="Wrap" Margin="0,8,50,0" TextAlignment="Justify"
+                       d:Text="Наши действия и поступки определены нашими мыслями. Но всегда ли мы контролируем наше мышление? Нобелевский лауреат Даниэль Канеман объясняет, почему мы подчас совершаем нерациональные поступки и как мы принимаем неверные решения. У нас имеется две системы мышления. Медленное мышление включается, когда мы решаем задачу или выбираем товар в магазине. Обычно нам кажется, что мы уверенно контролируем эти процессы, но не будем забывать, что позади нашего сознания в фоновом режиме постоянно работает быстрое мышление - автоматическое, мгновенное и неосознаваемое…" />
+
+            <Grid Margin="0,15,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="15"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="1" Grid.Row="0" d:Text="Издатель" Text="{Binding Publisher.PublisherName}" FontSize="11.2"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" d:Text="1990" Text="{Binding YearPublished}" FontSize="11.2"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" d:Text="528" Text="{Binding PageCount}" FontSize="11.2"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Издательство:" FontSize="11.2" FontWeight="Light"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Год издания:" FontSize="11.2" FontWeight="Light"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Количество страниц: " FontSize="11.2" FontWeight="Light"/>
+            </Grid>
+
         </StackPanel>
 
         <StackPanel Grid.Column="2" Margin="10">

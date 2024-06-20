@@ -23,17 +23,19 @@
             <TextBlock Text="{Binding Annotation}" FontSize="12" TextWrapping="Wrap"/>
             <TextBlock Text="{Binding YearPublished}" FontSize="16"/>
             <!--<StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Publisher: " FontWeight="Bold"/>
-                    <TextBlock Text="{Binding Publisher.PublisherName}"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Pages: " FontWeight="Bold"/>
-                    <TextBlock Text="{Binding PageCount}"/>
-                </StackPanel>-->
+                <TextBlock Text="Publisher: " FontWeight="Bold"/>
+                <TextBlock Text="{Binding Publisher.PublisherName}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Pages: " FontWeight="Bold"/>
+                <TextBlock Text="{Binding PageCount}"/>
+            </StackPanel>-->
         </StackPanel>
 
         <StackPanel Grid.Column="2" Margin="10">
 
         </StackPanel>
     </Grid>
+
+
 </Page>

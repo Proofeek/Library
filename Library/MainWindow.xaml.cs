@@ -21,20 +21,16 @@ namespace Library
         {
             InitializeComponent();
 
-            string connectionString = "Host=192.168.100.5;Username=postgres;Password=root;Database=Library";
-            DataBaseService dbHelper = new DataBaseService(connectionString);
-            List<Book> books = dbHelper.GetAllBooks();
-            BooksListBox.ItemsSource = books;
 
             DataContext = this;
+            var searchPage = new SearchPage();
+
+            NavigateToPage(searchPage);
         }
-        private void BooksListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        public void NavigateToPage(Page page)
         {
-            if (BooksListBox.SelectedItem is Book selectedBook)
-            {
-                BookPage bookPage = new BookPage(selectedBook);
-                this.Content = bookPage;
-            }
+            MainFrame.Navigate(page);
         }
     }
 }

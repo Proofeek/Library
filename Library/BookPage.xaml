@@ -74,7 +74,7 @@
     
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
         <Grid.RowDefinitions>
-            <RowDefinition Height="325"/>
+            <RowDefinition/>
             <RowDefinition Height="65"/>
             <RowDefinition Height="320"/>
             <RowDefinition Height="65"/>
@@ -103,8 +103,17 @@
 
         <TextBlock Grid.Row="3" Text="Похожие" FontSize="25" FontWeight="Bold" Margin="20,25,0,0"/>
 
-        
-        <Grid Grid.Row="4" VerticalAlignment="Top" >
+
+            <ListBox Grid.Row="4" Name="BooksListBox" ItemTemplate="{StaticResource SimilarBook}" SelectionChanged="BooksListBox_SelectionChanged">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ListBox.Template>
+            </ListBox>
+
+
+            <!--<Grid Grid.Row="4" VerticalAlignment="Top" >
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -116,7 +125,8 @@
                             ContentTemplate="{StaticResource SimilarBook}"/>
             <ContentControl Grid.Row="2" Content="{Binding Book}"
                             ContentTemplate="{StaticResource SimilarBook}"/>
-        </Grid>
+                
+            </Grid>-->
         
 
     </Grid>

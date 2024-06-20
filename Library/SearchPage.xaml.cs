@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,14 +21,14 @@ namespace Library
     /// </summary>
     public partial class SearchPage : Page
     {
+        private readonly DataBaseService dbHelper = AppServices.DbHelper;
         public SearchPage()
         {
             InitializeComponent();
-
-            string connectionString = "Host=192.168.100.5;Username=postgres;Password=root;Database=Library";
-            DataBaseService dbHelper = new DataBaseService(connectionString);
-            List<Book> books = dbHelper.GetAllBooks();
-            BooksListBox.ItemsSource = books;
+                List<Book> books = dbHelper.GetAllBooks();
+                BooksListBox.ItemsSource = books;
+                Debug.WriteLine("ОНО");
+            
         }
 
         private void BooksListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

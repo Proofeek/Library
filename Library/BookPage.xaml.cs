@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Library
 {
@@ -21,12 +22,27 @@ namespace Library
     
     public partial class BookPage : Page
     {
+        private readonly DataBaseService dbHelper = AppServices.DbHelper;
         public Book Book { get; set; }
         public BookPage(Book book)
         {
             InitializeComponent();
-            this.Book = book;
+            Book = book;
+            List<Book> similarBooks = dbHelper.FindSimilarBooks(Book);
+            BooksListBox.ItemsSource = similarBooks;
             this.DataContext = this;
+        }
+
+        private void BooksListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (BooksListBox.SelectedItem is Book selectedBook)
+            {
+                BookPage bookPage = new BookPage(selectedBook);
+                if (Window.GetWindow(this) is MainWindow mainWindow)
+                {
+                    mainWindow.NavigateToPage(bookPage);
+                }
+            }
         }
     }
 }

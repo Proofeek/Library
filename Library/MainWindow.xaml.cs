@@ -17,14 +17,12 @@ namespace Library
 {
     public partial class MainWindow : Window
     {
+        public DataBaseService dbHelper;
         public MainWindow()
         {
             InitializeComponent();
-
-
             DataContext = this;
             var searchPage = new SearchPage();
-
             NavigateToPage(searchPage);
         }
 

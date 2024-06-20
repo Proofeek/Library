@@ -18,12 +18,15 @@ namespace Library
     /// <summary>
     /// Логика взаимодействия для BookPage.xaml
     /// </summary>
+    
     public partial class BookPage : Page
     {
+        public Book Book { get; set; }
         public BookPage(Book book)
         {
             InitializeComponent();
-            this.DataContext = book;
+            this.Book = book;
+            this.DataContext = this;
         }
     }
 }

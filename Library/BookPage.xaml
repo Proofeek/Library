@@ -5,52 +5,95 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Library"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="800" d:DesignWidth="1000"
       d:Background="White"
       Title="BookPage">
 
-    <Grid Margin="0" Height="400" HorizontalAlignment="Left" VerticalAlignment="Top">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+    <Page.Resources>
 
-        <Image Grid.Column="0" Source="{Binding ImageUrl}" Margin="10" Height="300" VerticalAlignment="Top"
-               d:Source="https://www.moscowbooks.ru/image/book/708/orig/i708783.jpg?cu=20201216154536"/>
-
-        <StackPanel Grid.Column="1" Margin="15,5,15,0" >
-            <TextBlock d:Text="Название и название 1290. Выход из моря" Text="{Binding Title}" FontWeight="Bold" FontSize="26"/>
-            <TextBlock d:Text="М. Автор" Text="{Binding Author.ShortName}" FontSize="15" Margin="0,0,0,0" FontWeight="Medium"/>
-            <TextBlock d:Text="Жанр" Text="{Binding Genre.GenreName}" FontSize="15" Margin="0,0,0,0" FontWeight="Regular" FontStyle="Italic"/>
-            
-            <TextBlock Text="{Binding Annotation}" FontSize="15" TextWrapping="Wrap" Margin="0,8,20,0" TextAlignment="Justify"
-                       d:Text="Наши действия и поступки определены нашими мыслями. Но всегда ли мы контролируем наше мышление? Нобелевский лауреат Даниэль Канеман объясняет, почему мы подчас совершаем нерациональные поступки и как мы принимаем неверные решения. У нас имеется две системы мышления. Медленное мышление включается, когда мы решаем задачу или выбираем товар в магазине. Обычно нам кажется, что мы уверенно контролируем эти процессы, но не будем забывать, что позади нашего сознания в фоновом режиме постоянно работает быстрое мышление - автоматическое, мгновенное и неосознаваемое…" />
-
-            <Grid Margin="0,22,0,0">
+        <DataTemplate x:Key="Book">
+            <Grid Grid.Row="0" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="250"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="1" Grid.Row="0" d:Text="Издатель" Text="{Binding Publisher.PublisherName}" FontSize="15"/>
-                <TextBlock Grid.Column="1" Grid.Row="1" d:Text="1990" Text="{Binding YearPublished}" FontSize="15"/>
-                <TextBlock Grid.Column="1" Grid.Row="2" d:Text="528" Text="{Binding PageCount}" FontSize="15"/>
+                <Image Grid.Column="0" Source="{Binding ImageUrl}" Margin="10" Height="300" VerticalAlignment="Top"
+           d:Source="https://www.moscowbooks.ru/image/book/708/orig/i708783.jpg?cu=20201216154536"/>
 
-                <TextBlock Grid.Column="0" Grid.Row="0" Text="Издательство:" FontSize="15" FontWeight="Light"/>
-                <TextBlock Grid.Column="0" Grid.Row="1" Text="Год издания:" FontSize="15" FontWeight="Light"/>
-                <TextBlock Grid.Column="0" Grid.Row="2" Text="Количество страниц: " FontSize="15" FontWeight="Light"/>
+                <StackPanel Grid.Column="1" Margin="15,5,15,0" >
+                    <TextBlock d:Text="Название и название 1290. Выход из моря" Text="{Binding Title}" FontWeight="Bold" FontSize="26"/>
+                    <TextBlock d:Text="М. Автор" Text="{Binding Author.ShortName}" FontSize="15" Margin="0,0,0,0" FontWeight="Medium"/>
+                    <TextBlock d:Text="Жанр" Text="{Binding Genre.GenreName}" FontSize="15" Margin="0,0,0,0" FontWeight="Regular" FontStyle="Italic"/>
+
+                    <TextBlock Text="{Binding Annotation}" FontSize="15" TextWrapping="Wrap" Margin="0,8,20,0" TextAlignment="Justify"
+                   d:Text="Наши действия и поступки определены нашими мыслями. Но всегда ли мы контролируем наше мышление? Нобелевский лауреат Даниэль Канеман объясняет, почему мы подчас совершаем нерациональные поступки и как мы принимаем неверные решения. У нас имеется две системы мышления. Медленное мышление включается, когда мы решаем задачу или выбираем товар в магазине. Обычно нам кажется, что мы уверенно контролируем эти процессы, но не будем забывать, что позади нашего сознания в фоновом режиме постоянно работает быстрое мышление - автоматическое, мгновенное и неосознаваемое…" />
+
+                    <Grid Margin="0,22,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Column="1" Grid.Row="0" d:Text="Издатель" Text="{Binding Publisher.PublisherName}" FontSize="15"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" d:Text="1990" Text="{Binding YearPublished}" FontSize="15"/>
+                        <TextBlock Grid.Column="1" Grid.Row="2" d:Text="528" Text="{Binding PageCount}" FontSize="15"/>
+
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Издательство:" FontSize="15" FontWeight="Light"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Год издания:" FontSize="15" FontWeight="Light"/>
+                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Количество страниц: " FontSize="15" FontWeight="Light"/>
+                    </Grid>
+
+                </StackPanel>
             </Grid>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="AdditionalMaterial">
+            <StackPanel HorizontalAlignment="Center">
+                <Image Source="{Binding ImageUrl}" Margin="0,10,0,0" Height="230" Width="150" VerticalAlignment="Top" HorizontalAlignment="Left"
+       d:Source="https://vse-svobodny.com/wp-content/uploads/2023/09/Оруэлл-1984.-Скотный-двор-Азбука.jpg"/>
+                <TextBlock d:Text="Название и название 1290. Выход из моря" Text="{Binding Title}" 
+                           FontWeight="Bold" FontSize="13" TextWrapping="Wrap" HorizontalAlignment="Left" Width="150" Margin="0,10,0,0"/>
+                <TextBlock d:Text="М. Автор" Text="{Binding Author.ShortName}" FontSize="15" Margin="0,5,0,0" FontWeight="Light"/>
+            </StackPanel>
+        </DataTemplate>
+        
+    </Page.Resources>
 
-        </StackPanel>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="325"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="320"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-        <StackPanel Grid.Column="2" Margin="10">
+            <ContentControl Grid.Row="0" Content="{Binding Book}"
+                ContentTemplate="{StaticResource Book}"/>
 
-        </StackPanel>
+            <TextBlock Grid.Row="1" Text="Дополнительные материалы" FontSize="25" FontWeight="Bold" Margin="20,5,0,0"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <ContentControl Grid.Column="0" Content="{Binding Book}"
+                            ContentTemplate="{StaticResource AdditionalMaterial}"/>
+            <ContentControl Grid.Column="1" Content="{Binding Book}"
+                            ContentTemplate="{StaticResource AdditionalMaterial}"/>
+            <ContentControl Grid.Column="2" Content="{Binding Book}"
+                            ContentTemplate="{StaticResource AdditionalMaterial}"/>
+        </Grid>
+
     </Grid>
 
 

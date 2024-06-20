@@ -92,7 +92,7 @@ namespace Library
                                 BookId = reader.GetInt32(reader.GetOrdinal("BookId")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
                                 Genre = genre,
-                                Annotation = reader.GetString(reader.GetOrdinal("Annotation")),
+                                FullAnnotation = reader.GetString(reader.GetOrdinal("Annotation")),
                                 YearPublished = reader.GetInt32(reader.GetOrdinal("YearPublished")),
                                 Author = author,
                                 Publisher = publisher,

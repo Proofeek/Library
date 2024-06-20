@@ -1,9 +1,54 @@
 ﻿<Application x:Class="Library.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Library"
+             mc:Ignorable="d"
              StartupUri="MainWindow.xaml">
+    
     <Application.Resources>
-         
+        <DataTemplate x:Key="SimilarBook">
+            <Grid Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="240">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" Source="{Binding ImageUrl}" Margin="10" Height="220" VerticalAlignment="Top"
+   d:Source="https://www.moscowbooks.ru/image/book/708/orig/i708783.jpg?cu=20201216154536"/>
+
+                <StackPanel Grid.Column="1" Margin="5,10,15,0" >
+                    <TextBlock d:Text="Название и название 1290. Выход из моря" Text="{Binding Title}" FontWeight="Bold" FontSize="20"/>
+                    <TextBlock d:Text="М. Автор" Text="{Binding Author.ShortName}" FontSize="15" Margin="0,0,0,0" FontWeight="Medium"/>
+                    <TextBlock d:Text="Жанр" Text="{Binding Genre.GenreName}" FontSize="15" Margin="0,0,0,0" FontWeight="Regular" FontStyle="Italic"/>
+
+                    <TextBlock Text="{Binding ShortAnnotation}" FontSize="15" TextWrapping="Wrap" Margin="0,8,0,0" TextAlignment="Justify" Width="500" HorizontalAlignment="Left"
+           d:Text="Наши действия и поступки определены нашими мыслями. Но всегда ли мы контролируем наше мышление?" />
+
+                    <!--<Grid Margin="0,22,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="1" Grid.Row="0" d:Text="Издатель" Text="{Binding Publisher.PublisherName}" FontSize="15"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" d:Text="1990" Text="{Binding YearPublished}" FontSize="15"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" d:Text="528" Text="{Binding PageCount}" FontSize="15"/>
+
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Издательство:" FontSize="15" FontWeight="Light"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Год издания:" FontSize="15" FontWeight="Light"/>
+                <TextBlock Grid.Column="0" Grid.Row="2" Text="Количество страниц: " FontSize="15" FontWeight="Light"/>
+            </Grid>-->
+
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
     </Application.Resources>
 </Application>

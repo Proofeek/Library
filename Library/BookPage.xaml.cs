@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -74,6 +75,22 @@ namespace Library
                     mainWindow.NavigateToPage(bookPage);
                 }
             }
+        }
+
+        private void ContentControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ContentControl contentControl)
+            {
+                if (contentControl.Content is Book selectedBook)
+                {
+                    BookPage bookPage = new BookPage(selectedBook);
+                    if (Window.GetWindow(this) is MainWindow mainWindow)
+                    {
+                        mainWindow.NavigateToPage(bookPage);
+                    }
+                }
+            }
+
         }
     }
 }

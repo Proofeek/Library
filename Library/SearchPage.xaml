@@ -9,6 +9,8 @@
       Title="SearchPage">
 
     <Grid>
-        <ListBox Grid.Row="2" Name="BooksListBox" ItemTemplate="{StaticResource SimilarBook}" SelectionChanged="BooksListBox_SelectionChanged"/>
+        <ListBox Grid.Row="2" Name="BooksListBox" ItemTemplate="{StaticResource SimilarBook}" SelectionChanged="BooksListBox_SelectionChanged" ScrollViewer.CanContentScroll="False">
+            
+        </ListBox>
     </Grid>
 </Page>

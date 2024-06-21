@@ -54,7 +54,7 @@
         </DataTemplate>
         
         <DataTemplate x:Key="AdditionalMaterial">
-            <StackPanel HorizontalAlignment="Center">
+            <StackPanel HorizontalAlignment="Center" Margin="0,5,0,35">
                 <Image Source="{Binding ImageUrl}" Margin="0,10,0,0" Height="230" Width="150" VerticalAlignment="Top" HorizontalAlignment="Left"
                             d:Source="https://vse-svobodny.com/wp-content/uploads/2023/09/Оруэлл-1984.-Скотный-двор-Азбука.jpg"/>
                 <TextBlock d:Text="Название и название 1290. Выход из моря" Text="{Binding Title}" 
@@ -84,7 +84,7 @@
             <ContentControl Grid.Row="0" Content="{Binding Book}"
                 ContentTemplate="{StaticResource Book}"/>
 
-            <TextBlock x:Name="TextAdditional" Grid.Row="1" Text="Дополнительные материалы" FontSize="25" FontWeight="Bold" Margin="20,25,0,0" />
+            <TextBlock x:Name="TextAdditional" Grid.Row="1" Text="Дополнительные материалы" FontSize="25" FontWeight="Bold" Margin="20,15,0,10" />
 
 
             <!--<ListBox Grid.Row="2" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch"
@@ -110,14 +110,15 @@
             </Grid.ColumnDefinitions>
 
             <ContentControl Grid.Column="0" x:Name="CC1" Content="{Binding Book}"
-                            ContentTemplate="{StaticResource AdditionalMaterial}"/>
+                            ContentTemplate="{StaticResource AdditionalMaterial}" MouseLeftButtonDown="ContentControl_MouseLeftButtonUp" Cursor="Hand"/>
                 <ContentControl Grid.Column="1" x:Name="CC2" Content="{Binding Book}"
-                            ContentTemplate="{StaticResource AdditionalMaterial}"/>
+                            ContentTemplate="{StaticResource AdditionalMaterial}" MouseLeftButtonDown="ContentControl_MouseLeftButtonUp" Cursor="Hand"/>
                 <ContentControl Grid.Column="2" x:Name="CC3" Content="{Binding Book}"
-                            ContentTemplate="{StaticResource AdditionalMaterial}"/>
-        </Grid>
+                            ContentTemplate="{StaticResource AdditionalMaterial}" MouseLeftButtonDown="ContentControl_MouseLeftButtonUp" Cursor="Hand">
+                </ContentControl>
+            </Grid>
 
-        <TextBlock x:Name="TextSimilar" Grid.Row="3" Text="Похожие" FontSize="25" FontWeight="Bold" Margin="20,25,0,0"/>
+            <TextBlock x:Name="TextSimilar" Grid.Row="3" Text="Похожие" FontSize="25" FontWeight="Bold" Margin="20,15,0,10"/>
 
             <ListBox Grid.Row="4" Name="SimilarListBox" ItemTemplate="{StaticResource SimilarBook}" SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.Template>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Library
@@ -24,18 +25,20 @@ namespace Library
         // Конструктор по умолчанию
         public Book() { }
 
-        // Метод для проверки доступности книги
-        public bool CheckAvailability()
-        {
-            return IsAvailable;
-        }
-
         public string ShortAnnotation
         {
             get
             {
                 SentenceExtractor extractor = new SentenceExtractor(FullAnnotation);
                 return extractor.GetFirstTwoSentences();
+            }
+        }
+
+        public string isAvailableText
+        {
+            get
+            {
+                return IsAvailable ? "Да" : "Нет";
             }
         }
     }

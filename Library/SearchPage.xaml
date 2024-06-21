@@ -8,9 +8,52 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SearchPage">
 
-    <Grid>
-        <ListBox Grid.Row="2" Name="BooksListBox" ItemTemplate="{StaticResource SimilarBook}" SelectionChanged="BooksListBox_SelectionChanged" ScrollViewer.CanContentScroll="False">
-            
-        </ListBox>
-    </Grid>
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock x:Name="TextAvailableBooks" Grid.Row="0" Text="Доступные книги" FontSize="25" FontWeight="Bold" Margin="20,15,0,0"/>
+            <ListBox Grid.Row="1" Name="AvailableBooksListBox" ItemTemplate="{StaticResource SimilarBook}" SelectionChanged="BooksListBox_SelectionChanged" ScrollViewer.CanContentScroll="False">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ListBox.Template>
+            </ListBox>
+
+            <TextBlock x:Name="TextUnavailableBooks" Grid.Row="2" Text="Недоступные книги" FontSize="25" FontWeight="Bold" Margin="20,15,0,0"/>
+            <ListBox Grid.Row="3" Name="UnavailabeBooksListBox" ItemTemplate="{StaticResource SimilarBook}" SelectionChanged="BooksListBox_SelectionChanged" ScrollViewer.CanContentScroll="False">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ListBox.Template>
+            </ListBox>
+
+            <TextBlock x:Name="TextYourBooks" Grid.Row="4" Text="Ваши книги" FontSize="25" FontWeight="Bold" Margin="20,15,0,0"/>
+            <ListBox Grid.Row="5" Name="UnreturnedBooksListBox" ItemTemplate="{StaticResource SimilarBook}" SelectionChanged="BooksListBox_SelectionChanged" ScrollViewer.CanContentScroll="False">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ListBox.Template>
+            </ListBox>
+            <ListBox Grid.Row="6" Name="ReturnedBooksListBox" ItemTemplate="{StaticResource SimilarBook}" SelectionChanged="BooksListBox_SelectionChanged" ScrollViewer.CanContentScroll="False">
+                <ListBox.Template>
+                    <ControlTemplate>
+                        <ItemsPresenter />
+                    </ControlTemplate>
+                </ListBox.Template>
+            </ListBox>
+
+        </Grid>
+    </ScrollViewer>
 </Page>

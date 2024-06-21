@@ -30,12 +30,29 @@ namespace Library
             List<Book> unavailabelBooks = dbHelper.GetUnavailableBooksExcept(returnedBooks, unReturnedBooks);
             List<Book> books = dbHelper.GetAllBooksExcept(returnedBooks, unReturnedBooks, unavailabelBooks);
 
-            BooksListBox.ItemsSource = books;
+            if(!returnedBooks.Any() && !unReturnedBooks.Any())
+            {
+                TextYourBooks.Visibility = Visibility.Collapsed;
+                ReturnedBooksListBox.Visibility = Visibility.Collapsed;
+                UnreturnedBooksListBox.Visibility = Visibility.Collapsed;
+            } else
+            {
+                ReturnedBooksListBox.ItemsSource = returnedBooks;
+                UnreturnedBooksListBox.ItemsSource = unReturnedBooks;
+            }
+
+            if (!unavailabelBooks.Any()) 
+            { 
+                TextUnavailableBooks.Visibility = Visibility.Collapsed;
+                UnavailabeBooksListBox.Visibility = Visibility.Collapsed;
+            } else UnavailabeBooksListBox.ItemsSource = unavailabelBooks;
+
+            AvailableBooksListBox.ItemsSource = books;
         }
 
         private void BooksListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (BooksListBox.SelectedItem is Book selectedBook)
+            if (AvailableBooksListBox.SelectedItem is Book selectedBook)
             {
                 BookPage bookPage = new BookPage(selectedBook);
                 if (Window.GetWindow(this) is MainWindow mainWindow)

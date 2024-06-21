@@ -33,7 +33,7 @@ namespace Library
             }
             else
             {
-                MessageBox.Show("Не удаётся войти в аккаунт", "Вход", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Не удаётся войти в аккаунт", "Вход", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             
         }

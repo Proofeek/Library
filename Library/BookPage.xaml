@@ -75,9 +75,9 @@
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="65"/>
-            <RowDefinition Height="320"/>
-            <RowDefinition Height="65"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
             <RowDefinition />
         </Grid.RowDefinitions>
 

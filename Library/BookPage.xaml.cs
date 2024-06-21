@@ -30,21 +30,36 @@ namespace Library
             InitializeComponent();
             Book = book;
 
-            // Заполнение похожей литературы
-            List<Book> similarBooks = dbHelper.FindSimilarBooks(Book);
-            if (similarBooks.Any()) SimilarListBox.ItemsSource = similarBooks;
-            else TextSimilar.Visibility = Visibility.Collapsed;
-
-            // Заполнение дополнительной литературы
-            List<Book> additionalLiterature = dbHelper.FindAdditionalLiterature(Book);
-            if (additionalLiterature.Count > 0) CC1.Content = additionalLiterature[0];
+            if (Book.Genre.GenreId == 2 ||
+                Book.Genre.GenreId == 3 ||
+                Book.Genre.GenreId == 4 ||
+                Book.Genre.GenreId == 10)
+            {
+                // Заполнение дополнительной литературы
+                List<Book> additionalLiterature = dbHelper.FindSimilarBooks(Book);
+                if (additionalLiterature.Count > 0) CC1.Content = additionalLiterature[0];
+                else
+                {
+                    CC1.Visibility = Visibility.Collapsed;
+                    TextAdditional.Visibility = Visibility.Collapsed;
+                }
+                CC2.Content = additionalLiterature.Count > 1 ? additionalLiterature[1] : CC2.Visibility = Visibility.Collapsed;
+                CC3.Content = additionalLiterature.Count > 2 ? additionalLiterature[2] : CC3.Visibility = Visibility.Collapsed;
+                TextSimilar.Visibility = Visibility.Collapsed;
+            }
             else
             {
                 CC1.Visibility = Visibility.Collapsed;
+                CC2.Visibility = Visibility.Collapsed;
+                CC3.Visibility = Visibility.Collapsed;
                 TextAdditional.Visibility = Visibility.Collapsed;
+                // Заполнение похожей литературы
+                List<Book> similarBooks = dbHelper.FindSimilarBooks(Book);
+                if (similarBooks.Any()) SimilarListBox.ItemsSource = similarBooks;
+                else TextSimilar.Visibility = Visibility.Collapsed;
             }
-            CC2.Content = additionalLiterature.Count > 1 ? additionalLiterature[1] : CC2.Visibility = Visibility.Collapsed;
-            CC3.Content = additionalLiterature.Count > 2 ? additionalLiterature[2] : CC3.Visibility = Visibility.Collapsed;
+
+
 
             this.DataContext = this;
         }

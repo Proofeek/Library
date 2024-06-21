@@ -21,6 +21,7 @@ namespace Library
         {
             InitializeComponent();
             DataContext = this;
+            OpenLogInWindow();
             var searchPage = new SearchPage();
             NavigateToPage(searchPage);
         }

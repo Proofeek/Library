@@ -25,8 +25,12 @@ namespace Library
         public SearchPage()
         {
             InitializeComponent();
-                List<Book> books = dbHelper.GetAllBooks();
-                BooksListBox.ItemsSource = books;
+            List<Book> returnedBooks = dbHelper.GetReturnedBooksForUser();
+            List<Book> unReturnedBooks = dbHelper.GetUnreturnedBooksForUser();
+            List<Book> unavailabelBooks = dbHelper.GetUnavailableBooksExcept(returnedBooks, unReturnedBooks);
+            List<Book> books = dbHelper.GetAllBooksExcept(returnedBooks, unReturnedBooks, unavailabelBooks);
+
+            BooksListBox.ItemsSource = books;
         }
 
         private void BooksListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

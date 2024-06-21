@@ -40,19 +40,22 @@
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Column="1" Grid.Row="1" d:Text="Издатель" Text="{Binding Publisher.PublisherName}" FontSize="15"/>
-                        <TextBlock Grid.Column="1" Grid.Row="2" d:Text="1990" Text="{Binding YearPublished}" FontSize="15"/>
+                        <TextBlock Grid.Column="1" Grid.Row="4" d:Text="Издатель" Text="{Binding Publisher.PublisherName}" FontSize="15"/>
+                        <TextBlock Grid.Column="1" Grid.Row="5" d:Text="1990" Text="{Binding YearPublished}" FontSize="15"/>
                         <TextBlock Grid.Column="1" Grid.Row="3" d:Text="528" Text="{Binding PageCount}" FontSize="15"/>
-                        <TextBlock Grid.Column="1" Grid.Row="4" d:Text="5" Text="{Binding ReadingRoomNumber}" FontSize="15"/>
+                        <TextBlock Grid.Column="1" Grid.Row="2" d:Text="5" Text="{Binding ReadingRoomNumber}" FontSize="15"/>
                         <TextBlock Grid.Column="1" Grid.Row="0" d:Text="Да" Text="{Binding ReadingRoomNumber}" FontSize="15" Foreground="Green"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" d:Text="Да" Text="{Binding ReadingRoomNumber}" FontSize="15"/>
 
-                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Издательство:" FontSize="15" FontWeight="Light"/>
-                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Год издания:" FontSize="15" FontWeight="Light"/>
+                        <TextBlock Grid.Column="0" Grid.Row="4" Text="Издательство:" FontSize="15" FontWeight="Light"/>
+                        <TextBlock Grid.Column="0" Grid.Row="5" Text="Год издания:" FontSize="15" FontWeight="Light"/>
                         <TextBlock Grid.Column="0" Grid.Row="3" Text="Количество страниц: " FontSize="15" FontWeight="Light"/>
-                        <TextBlock Grid.Column="0" Grid.Row="4" Text="Читательский зал: " FontSize="15" FontWeight="Light"/>
+                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Читательский зал: " FontSize="15" FontWeight="Light"/>
                         <TextBlock Grid.Column="0" Grid.Row="0" Text="Прочитано: " FontSize="15" FontWeight="Light" Foreground="Green"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Доступно: " FontSize="15" FontWeight="Light"/>
                     </Grid>
 
                 </StackPanel>

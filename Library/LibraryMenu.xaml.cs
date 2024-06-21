@@ -35,5 +35,18 @@ namespace Library
                 mainWindow.NavigateToPage(searchPage);
             }
         }
+
+        private void MyBooksButton_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void AccountButton_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (Window.GetWindow(this) is MainWindow mainWindow)
+            {
+                mainWindow.OpenLogInWindow();
+            }
+        }
     }
 }

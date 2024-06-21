@@ -30,5 +30,11 @@ namespace Library
         {
             MainFrame.Navigate(page);
         }
+
+        public void OpenLogInWindow()
+        {
+            var logInWindow = new LogInWindow();
+            logInWindow.ShowDialog();
+        }
     }
 }

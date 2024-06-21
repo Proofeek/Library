@@ -12,5 +12,6 @@ namespace Library
         private static readonly DataBaseService dbHelper = new DataBaseService(connectionString);
 
         public static DataBaseService DbHelper => dbHelper;
+        public static string AccountEmail;
     }
 }

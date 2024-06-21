@@ -19,7 +19,7 @@
    d:Source="https://www.moscowbooks.ru/image/book/708/orig/i708783.jpg?cu=20201216154536"/>
 
                 <StackPanel Grid.Column="1" Margin="5,10,15,0" >
-                    <TextBlock d:Text="Название и название 1290. Выход из моря" Text="{Binding Title}" FontWeight="Bold" FontSize="20"/>
+                    <TextBlock d:Text="Название и название 1290. Выход из моря" Text="{Binding Title}" FontWeight="Bold" FontSize="20" TextWrapping="Wrap" MaxWidth="560" TextAlignment="Left"/>
                     <TextBlock d:Text="М. Автор" Text="{Binding Author.ShortName}" FontSize="15" Margin="0,0,0,0" FontWeight="Medium"/>
                     <TextBlock d:Text="Жанр" Text="{Binding Genre.GenreName}" FontSize="15" Margin="0,0,0,0" FontWeight="Regular" FontStyle="Italic"/>
 
@@ -48,6 +48,7 @@
 
                 </StackPanel>
             </Grid>
+            
         </DataTemplate>
 
     </Application.Resources>

@@ -38,7 +38,13 @@ namespace Library
 
         private void MyBooksButton_Click(object sender, MouseButtonEventArgs e)
         {
+            var myBooksPage = new MyBooksPage();
 
+            // Find the parent window and call the NavigateToPage method
+            if (Window.GetWindow(this) is MainWindow mainWindow)
+            {
+                mainWindow.NavigateToPage(myBooksPage);
+            }
         }
 
         private void AccountButton_Click(object sender, MouseButtonEventArgs e)

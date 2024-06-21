@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,21 +16,23 @@ using System.Windows.Shapes;
 namespace Library
 {
     /// <summary>
-    /// Логика взаимодействия для SearchPage.xaml
+    /// Логика взаимодействия для MyBooksPage.xaml
     /// </summary>
-    public partial class SearchPage : Page
+    public partial class MyBooksPage : Page
     {
-        private readonly DataBaseService dbHelper = AppServices.DbHelper;
-        public SearchPage()
+        public MyBooksPage()
         {
             InitializeComponent();
-                List<Book> books = dbHelper.GetAllBooks();
-                BooksListBox.ItemsSource = books;
+            List<Book> unreternedBooks = AppServices.DbHelper.GetUnreturnedBooksForUser();
+            UnreturnedBooksListBox.ItemsSource = unreternedBooks;
+
+            List<Book> reternedBooks = AppServices.DbHelper.GetReturnedBooksForUser();
+            ReturnedBooksListBox.ItemsSource = reternedBooks;
         }
 
         private void BooksListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (BooksListBox.SelectedItem is Book selectedBook)
+            if (ReturnedBooksListBox.SelectedItem is Book selectedBook)
             {
                 BookPage bookPage = new BookPage(selectedBook);
                 if (Window.GetWindow(this) is MainWindow mainWindow)

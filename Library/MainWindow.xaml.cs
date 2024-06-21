@@ -17,7 +17,6 @@ namespace Library
 {
     public partial class MainWindow : Window
     {
-        public DataBaseService dbHelper;
         public MainWindow()
         {
             InitializeComponent();

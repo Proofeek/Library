@@ -23,5 +23,19 @@ namespace Library
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (AppServices.DbHelper.LoadReaderByEmail(EmailTextBox.Text))
+            {
+                MessageBox.Show("Успешный вход в аккаунт", "Вход", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Не удаётся войти в аккаунт", "Вход", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Library;
+using System.Windows;
 
 namespace Library
 {
@@ -215,6 +216,49 @@ namespace Library
             }
 
             return similarBooks;
+        }
+        public bool LoadReaderByEmail(string email)
+        {
+            string query = @"
+                SELECT 
+                    ReaderId, FirstName, MiddleName, LastName, readeremail
+                FROM 
+                    Readers
+                WHERE 
+                    readeremail = @readeremail";
+
+            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+
+                using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@readeremail", email);
+
+                    using (NpgsqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            // Записываем данные в статический класс User
+                            User.Id = reader.GetInt32(reader.GetOrdinal("ReaderId"));
+                            User.FirstName = reader.GetString(reader.GetOrdinal("FirstName"));
+                            User.MiddleName = reader.IsDBNull(reader.GetOrdinal("MiddleName")) ? null : reader.GetString(reader.GetOrdinal("MiddleName"));
+                            User.LastName = reader.GetString(reader.GetOrdinal("LastName"));
+                            User.Email = reader.GetString(reader.GetOrdinal("readeremail"));
+
+                            
+                            return true;
+                        }
+                        else
+                        {
+                            // В случае, если читатель с таким email не найден, можно обработать ошибку или сделать что-то еще
+                            
+                            return false;
+                            //throw new ArgumentException("Читатель с указанным email не найден.");
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Library"
       mc:Ignorable="d"
-      d:DesignHeight="1800" d:DesignWidth="1000"
+      d:DesignHeight="1800" d:DesignWidth="1100"
       d:Background="White"
       Title="BookPage">
 
@@ -21,7 +21,7 @@
                 <Image Grid.Column="0" Source="{Binding ImageUrl}" Margin="10" Height="300" VerticalAlignment="Top"
            d:Source="https://www.moscowbooks.ru/image/book/708/orig/i708783.jpg?cu=20201216154536"/>
 
-                <StackPanel Grid.Column="1" Margin="15,5,15,0" >
+                <StackPanel Grid.Column="1" Margin="15,5,15,0" HorizontalAlignment="Stretch" >
                     <TextBlock d:Text="Название и название 1290. Выход из моря" Text="{Binding Title}" FontWeight="Bold" FontSize="26" TextWrapping="Wrap" TextAlignment="Left" MaxWidth="700" HorizontalAlignment="Left"/>
                     <TextBlock d:Text="М. Автор" Text="{Binding Author.ShortName}" FontSize="15" Margin="0,0,0,0" FontWeight="Medium"/>
                     <TextBlock d:Text="Жанр" Text="{Binding Genre.GenreName}" FontSize="15" Margin="0,0,0,0" FontWeight="Regular" FontStyle="Italic"/>
@@ -39,17 +39,20 @@
                             <RowDefinition/>
                             <RowDefinition/>
                             <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Column="1" Grid.Row="0" d:Text="Издатель" Text="{Binding Publisher.PublisherName}" FontSize="15"/>
-                        <TextBlock Grid.Column="1" Grid.Row="1" d:Text="1990" Text="{Binding YearPublished}" FontSize="15"/>
-                        <TextBlock Grid.Column="1" Grid.Row="2" d:Text="528" Text="{Binding PageCount}" FontSize="15"/>
-                        <TextBlock Grid.Column="1" Grid.Row="3" d:Text="5" Text="{Binding ReadingRoomNumber}" FontSize="15"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" d:Text="Издатель" Text="{Binding Publisher.PublisherName}" FontSize="15"/>
+                        <TextBlock Grid.Column="1" Grid.Row="2" d:Text="1990" Text="{Binding YearPublished}" FontSize="15"/>
+                        <TextBlock Grid.Column="1" Grid.Row="3" d:Text="528" Text="{Binding PageCount}" FontSize="15"/>
+                        <TextBlock Grid.Column="1" Grid.Row="4" d:Text="5" Text="{Binding ReadingRoomNumber}" FontSize="15"/>
+                        <TextBlock Grid.Column="1" Grid.Row="0" d:Text="Да" Text="{Binding ReadingRoomNumber}" FontSize="15" Foreground="Green"/>
 
-                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Издательство:" FontSize="15" FontWeight="Light"/>
-                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Год издания:" FontSize="15" FontWeight="Light"/>
-                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Количество страниц: " FontSize="15" FontWeight="Light"/>
-                        <TextBlock Grid.Column="0" Grid.Row="3" Text="Читательский зал: " FontSize="15" FontWeight="Light"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Издательство:" FontSize="15" FontWeight="Light"/>
+                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Год издания:" FontSize="15" FontWeight="Light"/>
+                        <TextBlock Grid.Column="0" Grid.Row="3" Text="Количество страниц: " FontSize="15" FontWeight="Light"/>
+                        <TextBlock Grid.Column="0" Grid.Row="4" Text="Читательский зал: " FontSize="15" FontWeight="Light"/>
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Прочитано: " FontSize="15" FontWeight="Light" Foreground="Green"/>
                     </Grid>
 
                 </StackPanel>

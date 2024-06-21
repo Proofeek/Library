@@ -67,7 +67,7 @@ namespace Library
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SimilarListBox.SelectedItem is Book selectedBook)
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] is Book selectedBook)
             {
                 BookPage bookPage = new BookPage(selectedBook);
                 if (Window.GetWindow(this) is MainWindow mainWindow)

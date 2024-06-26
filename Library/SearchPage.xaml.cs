@@ -25,8 +25,8 @@ namespace Library
         public SearchPage()
         {
             InitializeComponent();
-            List<Book> returnedBooks = dbHelper.GetReturnedBooksForUser();
-            List<Book> unReturnedBooks = dbHelper.GetUnreturnedBooksForUser();
+            List<Book> returnedBooks = dbHelper.GetReturnedBooksForUser(false);
+            List<Book> unReturnedBooks = dbHelper.GetUnreturnedBooksForUser(false);
             List<Book> unavailabelBooks = dbHelper.GetUnavailableBooksExcept(returnedBooks, unReturnedBooks);
             List<Book> books = dbHelper.GetAllBooksExcept(returnedBooks, unReturnedBooks, unavailabelBooks);
 

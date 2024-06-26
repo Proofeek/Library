@@ -23,10 +23,10 @@ namespace Library
         public MyBooksPage()
         {
             InitializeComponent();
-            List<Book> unreternedBooks = AppServices.DbHelper.GetUnreturnedBooksForUser();
+            List<Book> unreternedBooks = AppServices.DbHelper.GetUnreturnedBooksForUser(true);
             UnreturnedBooksListBox.ItemsSource = unreternedBooks;
 
-            List<Book> reternedBooks = AppServices.DbHelper.GetReturnedBooksForUser();
+            List<Book> reternedBooks = AppServices.DbHelper.GetReturnedBooksForUser(true);
             ReturnedBooksListBox.ItemsSource = reternedBooks;
         }
 

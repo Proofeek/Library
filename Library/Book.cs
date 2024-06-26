@@ -25,12 +25,21 @@ namespace Library
         // Конструктор по умолчанию
         public Book() { }
 
+        private string _shortAnnotation;
         public string ShortAnnotation
         {
             get
             {
-                SentenceExtractor extractor = new SentenceExtractor(FullAnnotation);
-                return extractor.GetFirstTwoSentences();
+                if (string.IsNullOrEmpty(_shortAnnotation))
+                {
+                    SentenceExtractor extractor = new SentenceExtractor(FullAnnotation);
+                    _shortAnnotation = extractor.GetFirstTwoSentences();
+                }
+                return _shortAnnotation;
+            }
+            set
+            {
+                _shortAnnotation = value;
             }
         }
 

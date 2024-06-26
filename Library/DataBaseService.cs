@@ -260,7 +260,7 @@ namespace Library
                 }
             }
         }
-        public List<Book> GetReturnedBooksForUser()
+        public List<Book> GetReturnedBooksForUser(bool includeLoanDates)
         {
             List<Book> returnedBooks = new List<Book>();
 
@@ -269,7 +269,8 @@ namespace Library
             b.BookId, b.Title, b.Annotation, b.YearPublished, b.PageCount, b.ReadingRoomNumber, b.IsAvailable, b.ImageUrl,
             g.GenreId, g.GenreName,
             a.AuthorId, a.FirstName, a.MiddleName, a.LastName,
-            p.PublisherId, p.PublisherName
+            p.PublisherId, p.PublisherName,
+            l.LoanDate, l.ReturnDate
         FROM 
             Loans l
         JOIN 
@@ -350,6 +351,13 @@ namespace Library
                                 ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl"))
                             };
 
+                            if (includeLoanDates)
+                            {
+                                DateTime loanDate = reader.GetDateTime(reader.GetOrdinal("LoanDate"));
+                                DateTime returnDate = reader.GetDateTime(reader.GetOrdinal("ReturnDate"));
+                                book.ShortAnnotation = $"Выдача: {loanDate.ToShortDateString()}\nВозврат: {returnDate.ToShortDateString()}";
+                            }
+
                             returnedBooks.Add(book);
                         }
                     }
@@ -358,7 +366,7 @@ namespace Library
 
             return returnedBooks;
         }
-        public List<Book> GetUnreturnedBooksForUser()
+        public List<Book> GetUnreturnedBooksForUser(bool includeLoanDates)
         {
             List<Book> unreturnedBooks = new List<Book>();
 
@@ -367,7 +375,8 @@ namespace Library
             b.BookId, b.Title, b.Annotation, b.YearPublished, b.PageCount, b.ReadingRoomNumber, b.IsAvailable, b.ImageUrl,
             g.GenreId, g.GenreName,
             a.AuthorId, a.FirstName, a.MiddleName, a.LastName,
-            p.PublisherId, p.PublisherName
+            p.PublisherId, p.PublisherName,
+            l.LoanDate
         FROM 
             Loans l
         JOIN 
@@ -447,6 +456,12 @@ namespace Library
                                 IsAvailable = reader.GetBoolean(reader.GetOrdinal("IsAvailable")),
                                 ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl"))
                             };
+
+                            if (includeLoanDates)
+                            {
+                                DateTime loanDate = reader.GetDateTime(reader.GetOrdinal("LoanDate"));
+                                book.ShortAnnotation = $"Выдача: {loanDate.ToShortDateString()}";
+                            }
 
                             unreturnedBooks.Add(book);
                         }

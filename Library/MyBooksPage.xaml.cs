@@ -20,21 +20,24 @@ namespace Library
     /// </summary>
     public partial class MyBooksPage : Page
     {
+        private List<Book> returnedBooks = new List<Book>();
+        private List<Book> unReturnedBooks = new List<Book>();
         public MyBooksPage()
         {
             InitializeComponent();
-            List<Book> unreternedBooks = AppServices.DbHelper.GetUnreturnedBooksForUser(true);
-            UnreturnedBooksListBox.ItemsSource = unreternedBooks;
 
-            List<Book> reternedBooks = AppServices.DbHelper.GetReturnedBooksForUser(true);
-            ReturnedBooksListBox.ItemsSource = reternedBooks;
+            unReturnedBooks = AppServices.DbHelper.GetUnreturnedBooksForUser(true);
+            UnreturnedBooksListBox.ItemsSource = unReturnedBooks;
+
+            returnedBooks = AppServices.DbHelper.GetReturnedBooksForUser(true);
+            ReturnedBooksListBox.ItemsSource = returnedBooks;
         }
 
         private void BooksListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0 && e.AddedItems[0] is Book selectedBook)
             {
-                BookPage bookPage = new BookPage(selectedBook);
+                BookPage bookPage = new BookPage(selectedBook, unReturnedBooks, returnedBooks);
                 if (Window.GetWindow(this) is MainWindow mainWindow)
                 {
                     mainWindow.NavigateToPage(bookPage);

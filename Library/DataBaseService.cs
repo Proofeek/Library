@@ -113,32 +113,40 @@ namespace Library
             return books;
         }
 
-        public List<Book> FindSimilarBooks(Book book)
+        public List<Book> FindSimilarBooks(Book book, List<Book> excludedBooks1, List<Book> excludedBooks2)
         {
             List<Book> similarBooks = new List<Book>();
 
-            string query = @"
-                SELECT 
-                    b.BookId, b.Title, b.Annotation, b.YearPublished, b.PageCount, b.ReadingRoomNumber, b.IsAvailable, b.ImageUrl,
-                    g.GenreId, g.GenreName,
-                    a.AuthorId, a.FirstName, a.MiddleName, a.LastName,
-                    p.PublisherId, p.PublisherName
-                FROM 
-                    Books b
-                JOIN 
-                    Genres g ON b.GenreId = g.GenreId
-                JOIN 
-                    Authors a ON b.AuthorId = a.AuthorId
-                JOIN 
-                    Publishers p ON b.PublisherId = p.PublisherId
-                WHERE 
-                    b.BookId != @BookId
-                    AND (
-                        g.GenreName = @GenreName
-                        OR b.Title LIKE @TitleSearch
-                        OR a.LastName = @AuthorLastName
-                    )
-                LIMIT 3";
+            // Собираем id исключенных книг в один список
+            List<int> excludedBookIds = excludedBooks1.Select(b => b.BookId).Concat(excludedBooks2.Select(b => b.BookId)).ToList();
+
+            // Создаем строку с параметрами для исключенных книг
+            string excludedBookIdsParams = string.Join(", ", excludedBookIds.Select((id, index) => $"@ExcludedBookId{index}"));
+
+            string query = $@"
+        SELECT 
+            b.BookId, b.Title, b.Annotation, b.YearPublished, b.PageCount, b.ReadingRoomNumber, b.IsAvailable, b.ImageUrl,
+            g.GenreId, g.GenreName,
+            a.AuthorId, a.FirstName, a.MiddleName, a.LastName,
+            p.PublisherId, p.PublisherName
+        FROM 
+            Books b
+        JOIN 
+            Genres g ON b.GenreId = g.GenreId
+        JOIN 
+            Authors a ON b.AuthorId = a.AuthorId
+        JOIN 
+            Publishers p ON b.PublisherId = p.PublisherId
+        WHERE 
+            b.BookId != @BookId
+            AND b.IsAvailable = TRUE
+            AND (
+                g.GenreName = @GenreName
+                OR b.Title LIKE @TitleSearch
+                OR a.LastName = @AuthorLastName
+            )
+            AND b.BookId NOT IN ({excludedBookIdsParams})
+        LIMIT 3";
 
             using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
             {
@@ -150,6 +158,12 @@ namespace Library
                     command.Parameters.AddWithValue("@GenreName", book.Genre.GenreName);
                     command.Parameters.AddWithValue("@TitleSearch", $"%{book.Title}%");
                     command.Parameters.AddWithValue("@AuthorLastName", book.Author.LastName);
+
+                    // Добавляем параметры для исключенных книг
+                    for (int i = 0; i < excludedBookIds.Count; i++)
+                    {
+                        command.Parameters.AddWithValue($"@ExcludedBookId{i}", excludedBookIds[i]);
+                    }
 
                     using (NpgsqlDataReader reader = command.ExecuteReader())
                     {
@@ -217,6 +231,8 @@ namespace Library
 
             return similarBooks;
         }
+
+
         public bool LoadReaderByEmail(string email)
         {
             string query = @"

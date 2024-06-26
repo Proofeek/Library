@@ -22,12 +22,15 @@ namespace Library
     public partial class SearchPage : Page
     {
         private readonly DataBaseService dbHelper = AppServices.DbHelper;
+        private List<Book> returnedBooks = new List<Book>();
+        private List<Book> unReturnedBooks = new List<Book>();
+        private List<Book> unavailabelBooks = new List<Book>();
         public SearchPage()
         {
             InitializeComponent();
-            List<Book> returnedBooks = dbHelper.GetReturnedBooksForUser(false);
-            List<Book> unReturnedBooks = dbHelper.GetUnreturnedBooksForUser(false);
-            List<Book> unavailabelBooks = dbHelper.GetUnavailableBooksExcept(returnedBooks, unReturnedBooks);
+            returnedBooks = dbHelper.GetReturnedBooksForUser(false);
+            unReturnedBooks = dbHelper.GetUnreturnedBooksForUser(false);
+            unavailabelBooks = dbHelper.GetUnavailableBooksExcept(returnedBooks, unReturnedBooks);
             List<Book> books = dbHelper.GetAllBooksExcept(returnedBooks, unReturnedBooks, unavailabelBooks);
 
             if(!returnedBooks.Any() && !unReturnedBooks.Any())
@@ -54,7 +57,7 @@ namespace Library
         {
             if (e.AddedItems.Count > 0 && e.AddedItems[0] is Book selectedBook)
             {
-                BookPage bookPage = new BookPage(selectedBook);
+                BookPage bookPage = new BookPage(selectedBook, returnedBooks, unReturnedBooks);
                 if (Window.GetWindow(this) is MainWindow mainWindow)
                 {
                     mainWindow.NavigateToPage(bookPage);

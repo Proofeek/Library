@@ -25,10 +25,14 @@ namespace Library
     public partial class BookPage : Page
     {
         private readonly DataBaseService dbHelper = AppServices.DbHelper;
+        private List<Book> returnedBooks = new List<Book>();
+        private List<Book> unReturnedBooks = new List<Book>();
         public Book Book { get; set; }
-        public BookPage(Book book)
+        public BookPage(Book book, List<Book> unReturnedBooks, List<Book> returnedBooks)
         {
             InitializeComponent();
+            this.returnedBooks = returnedBooks;
+            this.unReturnedBooks = unReturnedBooks;
             Book = book;
 
             if (Book.Genre.GenreId == 2 ||
@@ -37,7 +41,7 @@ namespace Library
                 Book.Genre.GenreId == 10)
             {
                 // Заполнение дополнительной литературы
-                List<Book> additionalLiterature = dbHelper.FindSimilarBooks(Book);
+                List<Book> additionalLiterature = dbHelper.FindSimilarBooks(Book, unReturnedBooks, returnedBooks);
                 if (additionalLiterature.Count > 0) CC1.Content = additionalLiterature[0];
                 else
                 {
@@ -55,7 +59,7 @@ namespace Library
                 CC3.Visibility = Visibility.Collapsed;
                 TextAdditional.Visibility = Visibility.Collapsed;
                 // Заполнение похожей литературы
-                List<Book> similarBooks = dbHelper.FindSimilarBooks(Book);
+                List<Book> similarBooks = dbHelper.FindSimilarBooks(Book, unReturnedBooks, returnedBooks);
                 if (similarBooks.Any()) SimilarListBox.ItemsSource = similarBooks;
                 else TextSimilar.Visibility = Visibility.Collapsed;
             }
@@ -69,7 +73,7 @@ namespace Library
         {
             if (e.AddedItems.Count > 0 && e.AddedItems[0] is Book selectedBook)
             {
-                BookPage bookPage = new BookPage(selectedBook);
+                BookPage bookPage = new BookPage(selectedBook, unReturnedBooks, returnedBooks);
                 if (Window.GetWindow(this) is MainWindow mainWindow)
                 {
                     mainWindow.NavigateToPage(bookPage);
@@ -83,7 +87,7 @@ namespace Library
             {
                 if (contentControl.Content is Book selectedBook)
                 {
-                    BookPage bookPage = new BookPage(selectedBook);
+                    BookPage bookPage = new BookPage(selectedBook, unReturnedBooks, returnedBooks);
                     if (Window.GetWindow(this) is MainWindow mainWindow)
                     {
                         mainWindow.NavigateToPage(bookPage);

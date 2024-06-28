@@ -23,7 +23,7 @@
 
                 <StackPanel Grid.Column="1" Margin="15,5,15,0" HorizontalAlignment="Stretch" >
                     <TextBlock d:Text="Название и название 1290. Выход из моря" Text="{Binding Title}" FontWeight="Bold" FontSize="26" TextWrapping="Wrap" TextAlignment="Left" MaxWidth="700" HorizontalAlignment="Left"/>
-                    <TextBlock d:Text="М. Автор" Text="{Binding Author.ShortName}" FontSize="15" Margin="0,0,0,0" FontWeight="Medium"/>
+                    <TextBlock d:Text="М. Автор" Text="{Binding Author.FullName}" FontSize="15" Margin="0,0,0,0" FontWeight="Medium"/>
                     <TextBlock d:Text="Жанр" Text="{Binding Genre.GenreName}" FontSize="15" Margin="0,0,0,0" FontWeight="Regular" FontStyle="Italic"/>
 
                     <TextBlock Text="{Binding FullAnnotation}" FontSize="15" TextWrapping="Wrap" Margin="0,8,20,0" TextAlignment="Justify" MaxWidth="700" HorizontalAlignment="Left"

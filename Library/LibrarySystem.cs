@@ -24,7 +24,7 @@ namespace Library
         {
             get
             {
-                return $"{LastName} {FirstName} {MiddleName}".Trim();
+                return $"{FirstName} {MiddleName} {LastName}".Trim();
             }
         }
 

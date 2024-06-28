@@ -19,106 +19,14 @@ namespace Library
         Dictionary<int, Author> authorsCache = new Dictionary<int, Author>();
         Dictionary<int, Publisher> publishersCache = new Dictionary<int, Publisher>();
 
-        public List<Book> GetAllBooks()
-        {
-            List<Book> books = new List<Book>();
-
-
-
-            string query = @"
-                SELECT 
-                    b.BookId, b.Title, b.Annotation, b.YearPublished, b.PageCount, b.ReadingRoomNumber, b.IsAvailable, b.ImageUrl,
-                    g.GenreId, g.GenreName,
-                    a.AuthorId, a.FirstName, a.MiddleName, a.LastName,
-                    p.PublisherId, p.PublisherName
-                FROM 
-                    Books b
-                JOIN 
-                    Genres g ON b.GenreId = g.GenreId
-                JOIN 
-                    Authors a ON b.AuthorId = a.AuthorId
-                JOIN 
-                    Publishers p ON b.PublisherId = p.PublisherId";
-
-            using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
-            {
-                connection.Open();
-
-                using (NpgsqlCommand command = new NpgsqlCommand(query, connection))
-                {
-                    using (NpgsqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            // Кеширование жанра
-                            int genreId = reader.GetInt32(reader.GetOrdinal("GenreId"));
-                            if (!genresCache.TryGetValue(genreId, out Genre genre))
-                            {
-                                genre = new Genre
-                                {
-                                    GenreId = genreId,
-                                    GenreName = reader.GetString(reader.GetOrdinal("GenreName"))
-                                };
-                                genresCache[genreId] = genre;
-                            }
-
-                            // Кеширование автора
-                            int authorId = reader.GetInt32(reader.GetOrdinal("AuthorId"));
-                            if (!authorsCache.TryGetValue(authorId, out Author author))
-                            {
-                                author = new Author
-                                {
-                                    AuthorId = authorId,
-                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                    MiddleName = reader.IsDBNull(reader.GetOrdinal("MiddleName")) ? null : reader.GetString(reader.GetOrdinal("MiddleName")),
-                                    LastName = reader.GetString(reader.GetOrdinal("LastName"))
-                                };
-                                authorsCache[authorId] = author;
-                            }
-
-                            // Кеширование издателя
-                            int publisherId = reader.GetInt32(reader.GetOrdinal("PublisherId"));
-                            if (!publishersCache.TryGetValue(publisherId, out Publisher publisher))
-                            {
-                                publisher = new Publisher
-                                {
-                                    PublisherId = publisherId,
-                                    PublisherName = reader.GetString(reader.GetOrdinal("PublisherName"))
-                                };
-                                publishersCache[publisherId] = publisher;
-                            }
-
-                            // Создание объекта Book
-                            Book book = new Book
-                            {
-                                BookId = reader.GetInt32(reader.GetOrdinal("BookId")),
-                                Title = reader.GetString(reader.GetOrdinal("Title")),
-                                Genre = genre,
-                                FullAnnotation = reader.GetString(reader.GetOrdinal("Annotation")),
-                                YearPublished = reader.GetInt32(reader.GetOrdinal("YearPublished")),
-                                Author = author,
-                                Publisher = publisher,
-                                PageCount = reader.GetInt32(reader.GetOrdinal("PageCount")),
-                                ReadingRoomNumber = reader.GetInt32(reader.GetOrdinal("ReadingRoomNumber")),
-                                IsAvailable = reader.GetBoolean(reader.GetOrdinal("IsAvailable")),
-                                ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl"))
-                            };
-
-                            books.Add(book);
-                        }
-                    }
-                }
-            }
-
-            return books;
-        }
-
         public List<Book> FindSimilarBooks(Book book, List<Book> excludedBooks1, List<Book> excludedBooks2)
         {
             List<Book> similarBooks = new List<Book>();
 
             // Собираем id исключенных книг в один список
-            List<int> excludedBookIds = excludedBooks1.Select(b => b.BookId).Concat(excludedBooks2.Select(b => b.BookId)).ToList();
+            List<int> excludedBookIds = excludedBooks1.Select(b => b.BookId)
+                                                       .Concat(excludedBooks2.Select(b => b.BookId))
+                                                       .ToList();
 
             // Создаем строку с параметрами для исключенных книг
             string excludedBookIdsParams = string.Join(", ", excludedBookIds.Select((id, index) => $"@ExcludedBookId{index}"));
@@ -169,60 +77,7 @@ namespace Library
                     {
                         while (reader.Read())
                         {
-                            // Кеширование жанра
-                            int genreId = reader.GetInt32(reader.GetOrdinal("GenreId"));
-                            if (!genresCache.TryGetValue(genreId, out Genre genre))
-                            {
-                                genre = new Genre
-                                {
-                                    GenreId = genreId,
-                                    GenreName = reader.GetString(reader.GetOrdinal("GenreName"))
-                                };
-                                genresCache[genreId] = genre;
-                            }
-
-                            // Кеширование автора
-                            int authorId = reader.GetInt32(reader.GetOrdinal("AuthorId"));
-                            if (!authorsCache.TryGetValue(authorId, out Author author))
-                            {
-                                author = new Author
-                                {
-                                    AuthorId = authorId,
-                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                    MiddleName = reader.IsDBNull(reader.GetOrdinal("MiddleName")) ? null : reader.GetString(reader.GetOrdinal("MiddleName")),
-                                    LastName = reader.GetString(reader.GetOrdinal("LastName"))
-                                };
-                                authorsCache[authorId] = author;
-                            }
-
-                            // Кеширование издателя
-                            int publisherId = reader.GetInt32(reader.GetOrdinal("PublisherId"));
-                            if (!publishersCache.TryGetValue(publisherId, out Publisher publisher))
-                            {
-                                publisher = new Publisher
-                                {
-                                    PublisherId = publisherId,
-                                    PublisherName = reader.GetString(reader.GetOrdinal("PublisherName"))
-                                };
-                                publishersCache[publisherId] = publisher;
-                            }
-
-                            // Создание объекта Book
-                            Book similarBook = new Book
-                            {
-                                BookId = reader.GetInt32(reader.GetOrdinal("BookId")),
-                                Title = reader.GetString(reader.GetOrdinal("Title")),
-                                Genre = genre,
-                                FullAnnotation = reader.GetString(reader.GetOrdinal("Annotation")),
-                                YearPublished = reader.GetInt32(reader.GetOrdinal("YearPublished")),
-                                Author = author,
-                                Publisher = publisher,
-                                PageCount = reader.GetInt32(reader.GetOrdinal("PageCount")),
-                                ReadingRoomNumber = reader.GetInt32(reader.GetOrdinal("ReadingRoomNumber")),
-                                IsAvailable = reader.GetBoolean(reader.GetOrdinal("IsAvailable")),
-                                ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl"))
-                            };
-
+                            Book similarBook = CreateBookFromReader(reader);
                             similarBooks.Add(similarBook);
                         }
                     }
@@ -313,59 +168,7 @@ namespace Library
                     {
                         while (reader.Read())
                         {
-                            // Кеширование жанра
-                            int genreId = reader.GetInt32(reader.GetOrdinal("GenreId"));
-                            if (!genresCache.TryGetValue(genreId, out Genre genre))
-                            {
-                                genre = new Genre
-                                {
-                                    GenreId = genreId,
-                                    GenreName = reader.GetString(reader.GetOrdinal("GenreName"))
-                                };
-                                genresCache[genreId] = genre;
-                            }
-
-                            // Кеширование автора
-                            int authorId = reader.GetInt32(reader.GetOrdinal("AuthorId"));
-                            if (!authorsCache.TryGetValue(authorId, out Author author))
-                            {
-                                author = new Author
-                                {
-                                    AuthorId = authorId,
-                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                    MiddleName = reader.IsDBNull(reader.GetOrdinal("MiddleName")) ? null : reader.GetString(reader.GetOrdinal("MiddleName")),
-                                    LastName = reader.GetString(reader.GetOrdinal("LastName"))
-                                };
-                                authorsCache[authorId] = author;
-                            }
-
-                            // Кеширование издателя
-                            int publisherId = reader.GetInt32(reader.GetOrdinal("PublisherId"));
-                            if (!publishersCache.TryGetValue(publisherId, out Publisher publisher))
-                            {
-                                publisher = new Publisher
-                                {
-                                    PublisherId = publisherId,
-                                    PublisherName = reader.GetString(reader.GetOrdinal("PublisherName"))
-                                };
-                                publishersCache[publisherId] = publisher;
-                            }
-
-                            // Создание объекта Book
-                            Book book = new Book
-                            {
-                                BookId = reader.GetInt32(reader.GetOrdinal("BookId")),
-                                Title = reader.GetString(reader.GetOrdinal("Title")),
-                                Genre = genre,
-                                FullAnnotation = reader.GetString(reader.GetOrdinal("Annotation")),
-                                YearPublished = reader.GetInt32(reader.GetOrdinal("YearPublished")),
-                                Author = author,
-                                Publisher = publisher,
-                                PageCount = reader.GetInt32(reader.GetOrdinal("PageCount")),
-                                ReadingRoomNumber = reader.GetInt32(reader.GetOrdinal("ReadingRoomNumber")),
-                                IsAvailable = reader.GetBoolean(reader.GetOrdinal("IsAvailable")),
-                                ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl"))
-                            };
+                            Book book = CreateBookFromReader(reader);
 
                             if (includeLoanDates)
                             {
@@ -419,59 +222,7 @@ namespace Library
                     {
                         while (reader.Read())
                         {
-                            // Кеширование жанра
-                            int genreId = reader.GetInt32(reader.GetOrdinal("GenreId"));
-                            if (!genresCache.TryGetValue(genreId, out Genre genre))
-                            {
-                                genre = new Genre
-                                {
-                                    GenreId = genreId,
-                                    GenreName = reader.GetString(reader.GetOrdinal("GenreName"))
-                                };
-                                genresCache[genreId] = genre;
-                            }
-
-                            // Кеширование автора
-                            int authorId = reader.GetInt32(reader.GetOrdinal("AuthorId"));
-                            if (!authorsCache.TryGetValue(authorId, out Author author))
-                            {
-                                author = new Author
-                                {
-                                    AuthorId = authorId,
-                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                    MiddleName = reader.IsDBNull(reader.GetOrdinal("MiddleName")) ? null : reader.GetString(reader.GetOrdinal("MiddleName")),
-                                    LastName = reader.GetString(reader.GetOrdinal("LastName"))
-                                };
-                                authorsCache[authorId] = author;
-                            }
-
-                            // Кеширование издателя
-                            int publisherId = reader.GetInt32(reader.GetOrdinal("PublisherId"));
-                            if (!publishersCache.TryGetValue(publisherId, out Publisher publisher))
-                            {
-                                publisher = new Publisher
-                                {
-                                    PublisherId = publisherId,
-                                    PublisherName = reader.GetString(reader.GetOrdinal("PublisherName"))
-                                };
-                                publishersCache[publisherId] = publisher;
-                            }
-
-                            // Создание объекта Book
-                            Book book = new Book
-                            {
-                                BookId = reader.GetInt32(reader.GetOrdinal("BookId")),
-                                Title = reader.GetString(reader.GetOrdinal("Title")),
-                                Genre = genre,
-                                FullAnnotation = reader.GetString(reader.GetOrdinal("Annotation")),
-                                YearPublished = reader.GetInt32(reader.GetOrdinal("YearPublished")),
-                                Author = author,
-                                Publisher = publisher,
-                                PageCount = reader.GetInt32(reader.GetOrdinal("PageCount")),
-                                ReadingRoomNumber = reader.GetInt32(reader.GetOrdinal("ReadingRoomNumber")),
-                                IsAvailable = reader.GetBoolean(reader.GetOrdinal("IsAvailable")),
-                                ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl"))
-                            };
+                            Book book = CreateBookFromReader(reader);
 
                             if (includeLoanDates)
                             {
@@ -492,10 +243,10 @@ namespace Library
             List<Book> books = new List<Book>();
 
             // Создание списка всех исключаемых книг
-            List<int> allExcludedBookIds = new List<int>();
-            allExcludedBookIds.AddRange(excludedBooks1.Select(b => b.BookId));
-            allExcludedBookIds.AddRange(excludedBooks2.Select(b => b.BookId));
-            allExcludedBookIds.AddRange(excludedBooks3.Select(b => b.BookId));
+            List<int> allExcludedBookIds = excludedBooks1.Select(b => b.BookId)
+                                                         .Concat(excludedBooks2.Select(b => b.BookId))
+                                                         .Concat(excludedBooks3.Select(b => b.BookId))
+                                                         .ToList();
 
             // Формирование плейсхолдеров для параметров
             string excludedBooksPlaceholders = string.Join(", ", allExcludedBookIds.Select((id, index) => $"@excludedBook{index}"));
@@ -534,61 +285,7 @@ namespace Library
                     {
                         while (reader.Read())
                         {
-                            // Кеширование жанра
-                            int genreId = reader.GetInt32(reader.GetOrdinal("GenreId"));
-                            if (!genresCache.TryGetValue(genreId, out Genre genre))
-                            {
-                                genre = new Genre
-                                {
-                                    GenreId = genreId,
-                                    GenreName = reader.GetString(reader.GetOrdinal("GenreName"))
-                                };
-                                genresCache[genreId] = genre;
-                            }
-
-                            // Кеширование автора
-                            int authorId = reader.GetInt32(reader.GetOrdinal("AuthorId"));
-                            if (!authorsCache.TryGetValue(authorId, out Author author))
-                            {
-                                author = new Author
-                                {
-                                    AuthorId = authorId,
-                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                    MiddleName = reader.IsDBNull(reader.GetOrdinal("MiddleName")) ? null : reader.GetString(reader.GetOrdinal("MiddleName")),
-                                    LastName = reader.GetString(reader.GetOrdinal("LastName"))
-                                };
-                                authorsCache[authorId] = author;
-                            }
-
-                            // Кеширование издателя
-                            int publisherId = reader.GetInt32(reader.GetOrdinal("PublisherId"));
-                            if (!publishersCache.TryGetValue(publisherId, out Publisher publisher))
-                            {
-                                publisher = new Publisher
-                                {
-                                    PublisherId = publisherId,
-                                    PublisherName = reader.GetString(reader.GetOrdinal("PublisherName"))
-                                };
-                                publishersCache[publisherId] = publisher;
-                            }
-
-                            // Создание объекта Book
-                            Book book = new Book
-                            {
-                                BookId = reader.GetInt32(reader.GetOrdinal("BookId")),
-                                Title = reader.GetString(reader.GetOrdinal("Title")),
-                                Genre = genre,
-                                FullAnnotation = reader.GetString(reader.GetOrdinal("Annotation")),
-                                YearPublished = reader.GetInt32(reader.GetOrdinal("YearPublished")),
-                                Author = author,
-                                Publisher = publisher,
-                                PageCount = reader.GetInt32(reader.GetOrdinal("PageCount")),
-                                ReadingRoomNumber = reader.GetInt32(reader.GetOrdinal("ReadingRoomNumber")),
-                                IsAvailable = reader.GetBoolean(reader.GetOrdinal("IsAvailable")),
-                                ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl"))
-                            };
-
-                            books.Add(book);
+                            books.Add(CreateBookFromReader(reader));
                         }
                     }
                 }
@@ -601,9 +298,9 @@ namespace Library
             List<Book> books = new List<Book>();
 
             // Создание списка всех исключаемых книг
-            List<int> allExcludedBookIds = new List<int>();
-            allExcludedBookIds.AddRange(excludedBooks1.Select(b => b.BookId));
-            allExcludedBookIds.AddRange(excludedBooks2.Select(b => b.BookId));
+            List<int> allExcludedBookIds = excludedBooks1.Select(b => b.BookId)
+                                                         .Concat(excludedBooks2.Select(b => b.BookId))
+                                                         .ToList();
 
             // Формирование плейсхолдеров для параметров
             string excludedBooksPlaceholders = string.Join(", ", allExcludedBookIds.Select((id, index) => $"@excludedBook{index}"));
@@ -643,61 +340,7 @@ namespace Library
                     {
                         while (reader.Read())
                         {
-                            // Кеширование жанра
-                            int genreId = reader.GetInt32(reader.GetOrdinal("GenreId"));
-                            if (!genresCache.TryGetValue(genreId, out Genre genre))
-                            {
-                                genre = new Genre
-                                {
-                                    GenreId = genreId,
-                                    GenreName = reader.GetString(reader.GetOrdinal("GenreName"))
-                                };
-                                genresCache[genreId] = genre;
-                            }
-
-                            // Кеширование автора
-                            int authorId = reader.GetInt32(reader.GetOrdinal("AuthorId"));
-                            if (!authorsCache.TryGetValue(authorId, out Author author))
-                            {
-                                author = new Author
-                                {
-                                    AuthorId = authorId,
-                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                    MiddleName = reader.IsDBNull(reader.GetOrdinal("MiddleName")) ? null : reader.GetString(reader.GetOrdinal("MiddleName")),
-                                    LastName = reader.GetString(reader.GetOrdinal("LastName"))
-                                };
-                                authorsCache[authorId] = author;
-                            }
-
-                            // Кеширование издателя
-                            int publisherId = reader.GetInt32(reader.GetOrdinal("PublisherId"));
-                            if (!publishersCache.TryGetValue(publisherId, out Publisher publisher))
-                            {
-                                publisher = new Publisher
-                                {
-                                    PublisherId = publisherId,
-                                    PublisherName = reader.GetString(reader.GetOrdinal("PublisherName"))
-                                };
-                                publishersCache[publisherId] = publisher;
-                            }
-
-                            // Создание объекта Book
-                            Book book = new Book
-                            {
-                                BookId = reader.GetInt32(reader.GetOrdinal("BookId")),
-                                Title = reader.GetString(reader.GetOrdinal("Title")),
-                                Genre = genre,
-                                FullAnnotation = reader.GetString(reader.GetOrdinal("Annotation")),
-                                YearPublished = reader.GetInt32(reader.GetOrdinal("YearPublished")),
-                                Author = author,
-                                Publisher = publisher,
-                                PageCount = reader.GetInt32(reader.GetOrdinal("PageCount")),
-                                ReadingRoomNumber = reader.GetInt32(reader.GetOrdinal("ReadingRoomNumber")),
-                                IsAvailable = reader.GetBoolean(reader.GetOrdinal("IsAvailable")),
-                                ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl"))
-                            };
-
-                            books.Add(book);
+                            books.Add(CreateBookFromReader(reader));
                         }
                     }
                 }
@@ -706,6 +349,75 @@ namespace Library
             return books;
         }
 
+        private Book CreateBookFromReader(NpgsqlDataReader reader)
+        {
+            int genreId = reader.GetInt32(reader.GetOrdinal("GenreId"));
+            Genre genre = GetOrCacheGenre(genreId, reader.GetString(reader.GetOrdinal("GenreName")));
 
+            int authorId = reader.GetInt32(reader.GetOrdinal("AuthorId"));
+            Author author = GetOrCacheAuthor(authorId, reader);
+
+            int publisherId = reader.GetInt32(reader.GetOrdinal("PublisherId"));
+            Publisher publisher = GetOrCachePublisher(publisherId, reader.GetString(reader.GetOrdinal("PublisherName")));
+
+            return new Book
+            {
+                BookId = reader.GetInt32(reader.GetOrdinal("BookId")),
+                Title = reader.GetString(reader.GetOrdinal("Title")),
+                Genre = genre,
+                FullAnnotation = reader.GetString(reader.GetOrdinal("Annotation")),
+                YearPublished = reader.GetInt32(reader.GetOrdinal("YearPublished")),
+                Author = author,
+                Publisher = publisher,
+                PageCount = reader.GetInt32(reader.GetOrdinal("PageCount")),
+                ReadingRoomNumber = reader.GetInt32(reader.GetOrdinal("ReadingRoomNumber")),
+                IsAvailable = reader.GetBoolean(reader.GetOrdinal("IsAvailable")),
+                ImageUrl = reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString(reader.GetOrdinal("ImageUrl"))
+            };
+        }
+
+        private Genre GetOrCacheGenre(int genreId, string genreName)
+        {
+            if (!genresCache.TryGetValue(genreId, out Genre genre))
+            {
+                genre = new Genre
+                {
+                    GenreId = genreId,
+                    GenreName = genreName
+                };
+                genresCache[genreId] = genre;
+            }
+            return genre;
+        }
+
+        private Author GetOrCacheAuthor(int authorId, NpgsqlDataReader reader)
+        {
+            if (!authorsCache.TryGetValue(authorId, out Author author))
+            {
+                author = new Author
+                {
+                    AuthorId = authorId,
+                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                    MiddleName = reader.IsDBNull(reader.GetOrdinal("MiddleName")) ? null : reader.GetString(reader.GetOrdinal("MiddleName")),
+                    LastName = reader.GetString(reader.GetOrdinal("LastName"))
+                };
+                authorsCache[authorId] = author;
+            }
+            return author;
+        }
+
+        private Publisher GetOrCachePublisher(int publisherId, string publisherName)
+        {
+            if (!publishersCache.TryGetValue(publisherId, out Publisher publisher))
+            {
+                publisher = new Publisher
+                {
+                    PublisherId = publisherId,
+                    PublisherName = publisherName
+                };
+                publishersCache[publisherId] = publisher;
+            }
+            return publisher;
+        }
     }
 }
